@@ -9,6 +9,8 @@ services:
     environment:
       - CASSANDRA_CLUSTER_NAME=TestCluster
       - CASSANDRA_SEEDS=cassandra1,cassandra2
+      - CASSANDRA_START_RPC=true  # Ensure RPC is enabled if required by your application
+      - CASSANDRA_PROTOCOL_VERSION=4  # Set the protocol version to a compatible one (e.g., 4)
     ports:
       - "9042:9042"
     volumes:
@@ -29,6 +31,7 @@ services:
       - CASSANDRA_CLUSTER_NAME=TestCluster
       - CASSANDRA_SEEDS=cassandra1,cassandra2
       - CASSANDRA_START_RPC=true
+      - CASSANDRA_PROTOCOL_VERSION=4  # Set the protocol version to a compatible one (e.g., 4)
     volumes:
       - cassandra2_data:/var/lib/cassandra
     healthcheck:
@@ -45,4 +48,3 @@ networks:
 volumes:
   cassandra1_data:
   cassandra2_data:
-
