@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  cassandra1:
+    image: cassandra:latest
+    container_name: cassandra1
+    networks:
+      - cassandra_net
+    environment:
+      - CASSANDRA_CLUSTER_NAME=TestCluster
+      - CASSANDRA_SEEDS=cassandra1,cassandra2
+    ports:
+      - "9042:9042"
+    volumes:
+      - cassandra1_data:/var/lib/cassandra
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  cassandra2:
+    image: cassandra:latest
+    container_name: cassandra2
+    networks:
+      - cassandra_net
+    environment:
+      - CASSANDRA_CLUSTER_NAME=TestCluster
+      - CASSANDRA_SEEDS=cassandra1,cassandra2
+      - CASSANDRA_START_RPC=true
+    volumes:
+      - cassandra2_data:/var/lib/cassandra
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+networks:
+  cassandra_net:
+    driver: bridge
+
+volumes:
+  cassandra1_data:
+  cassandra2_data:
+
