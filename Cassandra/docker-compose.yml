@@ -1,50 +1,55 @@
-version: '3.8'
-
+version: '3'
 services:
   cassandra1:
     image: cassandra:latest
     container_name: cassandra1
-    networks:
-      - cassandra_net
-    environment:
-      - CASSANDRA_CLUSTER_NAME=TestCluster
-      - CASSANDRA_SEEDS=cassandra1,cassandra2
-      - CASSANDRA_START_RPC=true  # Ensure RPC is enabled if required by your application
-      - CASSANDRA_PROTOCOL_VERSION=4  # Set the protocol version to a compatible one (e.g., 4)
     ports:
       - "9042:9042"
     volumes:
-      - cassandra1_data:/var/lib/cassandra
+      - cassandra_data1:/var/lib/cassandra
+    environment:
+      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
+      - CASSANDRA_SEEDS=cassandra1
+      - CASSANDRA_START_RPC=true
     healthcheck:
-      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
+      test: ["CMD-SHELL", "nodetool status | grep -q 'UN'"]
       interval: 30s
       timeout: 10s
       retries: 5
-      start_period: 60s
 
   cassandra2:
     image: cassandra:latest
     container_name: cassandra2
-    networks:
-      - cassandra_net
-    environment:
-      - CASSANDRA_CLUSTER_NAME=TestCluster
-      - CASSANDRA_SEEDS=cassandra1,cassandra2
-      - CASSANDRA_START_RPC=true
-      - CASSANDRA_PROTOCOL_VERSION=4  # Set the protocol version to a compatible one (e.g., 4)
     volumes:
-      - cassandra2_data:/var/lib/cassandra
+      - cassandra_data2:/var/lib/cassandra
+    environment:
+      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
+      - CASSANDRA_SEEDS=cassandra1
+      - CASSANDRA_START_RPC=true
+      - CASSANDRA_CONTACT_POINTS=cassandra1
     healthcheck:
-      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
+      test: ["CMD-SHELL", "nodetool status | grep -q 'UN'"]
       interval: 30s
       timeout: 10s
       retries: 5
-      start_period: 60s
 
-networks:
-  cassandra_net:
-    driver: bridge
+  cassandra3:
+    image: cassandra:latest
+    container_name: cassandra3
+    volumes:
+      - cassandra_data3:/var/lib/cassandra
+    environment:
+      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
+      - CASSANDRA_SEEDS=cassandra1
+      - CASSANDRA_START_RPC=true
+      - CASSANDRA_CONTACT_POINTS=cassandra1
+    healthcheck:
+      test: ["CMD-SHELL", "nodetool status | grep -q 'UN'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
 volumes:
-  cassandra1_data:
-  cassandra2_data:
+  cassandra_data1:
+  cassandra_data2:
+  cassandra_data3:
