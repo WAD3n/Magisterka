@@ -1,0 +1,92 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="E684B5C4-F924-22C6-C855-8F21B0457373" name="Relation_3">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 08:02:41 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="CompanyValue_UID" id="AF6CEF06-B105-6912-649D-C0275AD63E39">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 08:02:41 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT057</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B50CE6A8-889C-7C06-2737-97A41D9B20B5" referredColumn="AC61E92C-6837-72E0-D9F8-9B465325CAC9"/>
+</associations>
+</Column>
+<Column name="Wallet_UID" id="C11A8987-E92A-1012-02A2-F7A35C9AC0DA">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 08:02:41 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT057</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="EB85BD3E-5700-172A-70FC-D7DBBB0D2EAB" referredColumn="3137C25E-F59A-580A-1D6B-14988D2AFBFE"/>
+</associations>
+</Column>
+<Column name="Wallet_User_Username" id="C1B0F344-2A25-FC62-2DBC-FA61F914D19A">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 08:02:41 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="EB85BD3E-5700-172A-70FC-D7DBBB0D2EAB" referredColumn="A87AE1BA-883A-86DB-DC30-9704409E9995"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="896EFD3A-3AC7-6B75-06F5-238A53E765E9" name="Relation_3_PK">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 08:02:41 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="AF6CEF06-B105-6912-649D-C0275AD63E39"/>
+<colUsage columnID="C11A8987-E92A-1012-02A2-F7A35C9AC0DA"/>
+<colUsage columnID="C1B0F344-2A25-FC62-2DBC-FA61F914D19A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B0F006B6-1FFB-00F2-75E4-75CDD36571C4" name="Relation_3_CompanyValue_FK">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 08:02:41 UTC</createdTime>
+<generatorID>B718E8C9-DC1C-4172-3C34-D7063A9C7801</generatorID>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="AF6CEF06-B105-6912-649D-C0275AD63E39"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="47889353-6F20-EC31-D31B-097881917832" name="Relation_3_Wallet_FK">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 08:02:41 UTC</createdTime>
+<generatorID>B718E8C9-DC1C-4172-3C34-D7063A9C7801</generatorID>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C11A8987-E92A-1012-02A2-F7A35C9AC0DA"/>
+<colUsage columnID="C1B0F344-2A25-FC62-2DBC-FA61F914D19A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

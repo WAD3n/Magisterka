@@ -1,0 +1,74 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="D6E2ACED-8351-9C7D-6834-74B9B1F7209D" name="Wallet">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:58:43 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="UID" id="7C20BA24-D463-9A60-713E-7D94517C1500">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:58:55 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT057</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Name" id="1A0B3404-12FF-9516-B114-A4152711AE82">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:59:11 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Username" id="44D772A6-3591-7EA4-669D-C32AB652396C">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 08:01:03 UTC</createdTime>
+<generatorID>93D8290E-1ADD-3F9E-2C0D-07F915EA71F0</generatorID>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<referedAttribute>0E11A45B-3562-AE26-B92C-CA9CEB978396</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="55E76B7B-3A8E-6240-0BBB-43625077E825" name="Wallet PK">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:59:10 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>7C20BA24-D463-9A60-713E-7D94517C1500</attributeRef>
+<attributeRef>44D772A6-3591-7EA4-669D-C32AB652396C</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

@@ -1,0 +1,213 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="4F76195A-460D-F8BA-23E4-EC063809B2ED" name="Prediction">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:47:26 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="UID" id="840AA22F-0D81-62F7-1735-05BCDA50FB09">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:47:47 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT057</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Model" id="835B0D9C-E318-1A5D-3753-8F2D61E1FC45">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:50:58 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Symbol" id="C980C127-7205-C521-18DC-F5BFD85A4735">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:51:21 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="PredictedOpen" id="2CF4EECA-26C1-064B-6C48-21FF8BA72876">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:51:51 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="PredictedHigh" id="7B6CEBC2-7CEF-75D2-917E-4D14D5A54A99">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:52:06 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="PredictedLow" id="0AAE2611-EAA7-1EAA-A83F-5DBC214158C9">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:52:20 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="PredictedClose" id="23F81109-697A-AEC9-6DFC-DB4BBC35C9CB">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:52:37 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="RMSEOPEN" id="0F2AA614-0FEC-A9B0-2F95-050D05B229B6">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:54:03 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="RMSEHigh" id="92750D43-797B-BEAA-0B08-1BE869BE74E8">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:54:24 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="RMSELow" id="47FD62D1-A81A-EEC7-904F-7C1463C32DF7">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:54:40 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="RMSEClose" id="273A6FDF-431B-BB90-AA1B-DA1EB8ACD229">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:54:51 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ACCOpen" id="E24ED889-574C-A28D-0B74-96872FD60FE3">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:56:43 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ACCHigh" id="2065A0F8-018D-013C-5F20-E0F25C5FC655">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:56:56 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ACCLow" id="C8B326CE-062A-172E-D435-4AAF6B1B53B9">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:57:05 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ACCClose" id="DB47394E-41DE-DE22-4B3C-23A5D24838B4">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:57:18 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="FE31A6A1-C426-D57D-0471-CC429D464CFC" name="Prediction PK">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 07:47:53 UTC</createdTime>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<engineerTo>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>840AA22F-0D81-62F7-1735-05BCDA50FB09</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

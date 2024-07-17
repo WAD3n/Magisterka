@@ -1,0 +1,93 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="23CB3609-2E35-7E73-EA03-A189B32DFE8C" name="CompanyValue">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 08:02:40 UTC</createdTime>
+<generatorID>F12E7174-F92B-EF3F-ECE7-CC8983A30EC4</generatorID>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="UID" id="AC61E92C-6837-72E0-D9F8-9B465325CAC9">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 08:02:40 UTC</createdTime>
+<generatorID>8207FFCC-09F2-FAFF-4471-3B759ED10C5D</generatorID>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT057</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Symbol" id="E6D9DE95-22AA-AA5A-699A-0DB4C3DEB700">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 08:02:40 UTC</createdTime>
+<generatorID>DC8DD41F-3C4E-AD29-5EA1-AEB0E074EDBF</generatorID>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Open" id="609FA93F-CDA8-7B47-ADAB-AC5A470BB9AF">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 08:02:40 UTC</createdTime>
+<generatorID>03ED0D1C-4E81-0602-5BD9-01465446982C</generatorID>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Low" id="1BE1D301-4556-15F8-8C2E-E455465EA2F1">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 08:02:40 UTC</createdTime>
+<generatorID>5BE01A77-E645-DFAE-1AB8-D5A2F7F30008</generatorID>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Close" id="C7234E4C-706F-0CDC-041B-CE7D210C6343">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 08:02:40 UTC</createdTime>
+<generatorID>FBAAC439-0B23-4807-664A-45F48BCB1DD2</generatorID>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Volume" id="D8FD116C-5514-8C33-5BD0-A9CFAEF03955">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 08:02:40 UTC</createdTime>
+<generatorID>EDBCE625-AA6B-49F7-D664-9974224A252E</generatorID>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="03089931-7D3C-DD2B-F3A7-97EB908567E1" name="CompanyValue_PK">
+<createdBy>hubertgluchowski</createdBy>
+<createdTime>2024-07-17 08:02:40 UTC</createdTime>
+<generatorID>8233275A-A0C9-39DC-5441-8515689EECB3</generatorID>
+<ownerDesignName>DataBaseSchema</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="AC61E92C-6837-72E0-D9F8-9B465325CAC9"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
