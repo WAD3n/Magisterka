@@ -1,10 +1,11 @@
 library(dplyr)
 library(neuralnet)
 library(nnet)
+library(uuid)
 
 # Ścieżki do plików
-fileToAnalize <- 'companyValues.csv'
-fileWithIndexes <- 'companies_symbol.csv'
+fileToAnalize <- 'workspace/companyValues.csv'
+fileWithIndexes <- 'workspace/companies_symbol.csv'
 
 # Wczytywanie danych
 data <- read.csv(fileToAnalize)
@@ -17,7 +18,7 @@ indexes$symbol <- paste0("NASDAQ:", indexes$symbol)
 uniqueIndexes <- unique(indexes$symbol)
 
 # Przygotowanie pliku do zapisu wyników
-results <- data.frame(model = character(), symbol = character(), predicted_open = numeric(),
+results <- data.frame(uid = character(), model = character(), symbol = character(), predicted_open = numeric(),
                       predicted_high = numeric(), predicted_low = numeric(), predicted_close = numeric(),
                       rmse_open = numeric(), rmse_high = numeric(), rmse_low = numeric(), rmse_close = numeric(),
                       accuracy_open = numeric(), accuracy_high = numeric(), accuracy_low = numeric(), accuracy_close = numeric(), stringsAsFactors = FALSE)
@@ -60,7 +61,7 @@ for (index in uniqueIndexes) {
       accuracy_nn_low <- accuracy(nn_last5_actual$low, nn_last5_pred[, 3])
       accuracy_nn_close <- accuracy(nn_last5_actual$close, nn_last5_pred[, 4])
       
-      results <- rbind(results, data.frame(model = "Neuralnet", symbol = index,
+      results <- rbind(results, data.frame(uid = UUIDgenerate(),model = "Neuralnet", symbol = index,
                                            predicted_open = nn_next_pred[1], predicted_high = nn_next_pred[2],
                                            predicted_low = nn_next_pred[3], predicted_close = nn_next_pred[4],
                                            rmse_open = rmse_nn_open, rmse_high = rmse_nn_high, rmse_low = rmse_nn_low, rmse_close = rmse_nn_close,
@@ -86,7 +87,7 @@ for (index in uniqueIndexes) {
       accuracy_nnet_low <- accuracy(nnet_last5_actual$low, nnet_last5_pred[, 3])
       accuracy_nnet_close <- accuracy(nnet_last5_actual$close, nnet_last5_pred[, 4])
       
-      results <- rbind(results, data.frame(model = "Nnet", symbol = index,
+      results <- rbind(results, data.frame(uid = UUIDgenerate(),model = "Nnet", symbol = index,
                                            predicted_open = nnet_next_pred[1], predicted_high = nnet_next_pred[2],
                                            predicted_low = nnet_next_pred[3], predicted_close = nnet_next_pred[4],
                                            rmse_open = rmse_nnet_open, rmse_high = rmse_nnet_high, rmse_low = rmse_nnet_low, rmse_close = rmse_nnet_close,
@@ -96,4 +97,4 @@ for (index in uniqueIndexes) {
 }
 
 # Zapisywanie wyników do pliku CSV
-write.csv(results, "predictions.csv", row.names = FALSE)
+write.csv(results, "workspace/predictions.csv", row.names = FALSE)

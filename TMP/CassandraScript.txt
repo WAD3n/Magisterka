@@ -1,0 +1,67 @@
+-- Creating the keyspace
+CREATE KEYSPACE mykeyspace WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 3};
+
+-- Use the created keyspace
+USE mykeyspace;
+
+-- Table: companyvalue
+CREATE TABLE companyvalue (
+    UID UUID PRIMARY KEY,
+    symbol TEXT,
+    open   DECIMAL,
+    low    DECIMAL,
+    close  DECIMAL,
+    volume BIGINT
+);
+
+-- Table: prediction
+CREATE TABLE prediction (
+    UID UUID PRIMARY KEY,
+    model TEXT,
+    symbol TEXT,
+    predictedopen DECIMAL,
+    predictedhigh DECIMAL,
+    predictedlow DECIMAL,
+    predictedclose DECIMAL,
+    rmseopen DECIMAL,
+    rmsehigh DECIMAL,
+    rmselow DECIMAL,
+    rmseclose DECIMAL,
+    accopen DECIMAL,
+    acchigh DECIMAL,
+    acclow DECIMAL,
+    accclose DECIMAL
+);
+
+-- Table: relation_2
+CREATE TABLE relation_2 (
+    wallet_uid UUID,
+    wallet_user_username TEXT,
+    prediction_uid UUID,
+    PRIMARY KEY (wallet_uid, wallet_user_username, prediction_uid)
+);
+
+-- Table: relation_3
+CREATE TABLE relation_3 (
+    companyvalue_uid UUID,
+    wallet_uid UUID,
+    wallet_user_username TEXT,
+    PRIMARY KEY (companyvalue_uid, wallet_uid, wallet_user_username)
+);
+
+-- Table: User
+CREATE TABLE User (
+    username TEXT PRIMARY KEY,
+    password BLOB
+);
+
+-- Table: wallet
+CREATE TABLE wallet (
+    UID UUID,
+    name TEXT,
+    user_username TEXT,
+    PRIMARY KEY (UID, user_username)
+);
+
+-- Note: Foreign key constraints are not supported in Cassandra.
+-- The relationships between tables need to be managed at the application level.
