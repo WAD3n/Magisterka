@@ -1,25 +1,21 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './components/Login';
+import Home from './components/Home';
+import Inwestuj from './components/Inwestuj';
+import MojPortfel from './components/MojPortfel';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Login</h1>
-        <div className="login-container">
-          <input
-            type="text"
-            className="login-input"
-            placeholder="Username"
-          />
-          <input
-            type="password"
-            className="login-input"
-            placeholder="Password"
-          />
-          <button className="login-button">Submit</button>
-        </div>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/inwestuj" element={<Inwestuj />} />
+        <Route path="/moj-portfel" element={<MojPortfel />} />
+      </Routes>
+    </Router>
   );
 }
 
