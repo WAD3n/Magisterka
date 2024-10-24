@@ -26,10 +26,6 @@
 <hideElementsInCurrentOnly>false</hideElementsInCurrentOnly>
 <bounds x="250" y="193" width="157" height="99"/>
 </OView>
-<OView class="oracle.dbtools.crest.swingui.logical.TVEntity" oid="F12E7174-F92B-EF3F-ECE7-CC8983A30EC4" otype="Entity" vid="6DC5E5A7-AEE3-BFD5-71DA-EE925EC4EA4A">
-<hideElementsInCurrentOnly>false</hideElementsInCurrentOnly>
-<bounds x="261" y="10" width="143" height="105"/>
-</OView>
 </objectViews>
 <connectors>
 <Connector class="oracle.dbtools.crest.swingui.logical.TVRelation" oid="5AAEA464-A82F-4FE6-FA69-3BF8808E0568" otype="Relation" vid_source="30DE1C51-889E-2646-8F3B-5B0F9E7C03AD" vid_target="EB5D30F2-892A-E57A-2263-B8B977B3581A">
@@ -48,15 +44,6 @@
 <points>
 <point x="187" y="237"/>
 <point x="250" y="237"/>
-</points>
-</Connector>
-<Connector class="oracle.dbtools.crest.swingui.logical.TVRelation" oid="B718E8C9-DC1C-4172-3C34-D7063A9C7801" otype="Relation" vid_source="6DC5E5A7-AEE3-BFD5-71DA-EE925EC4EA4A" vid_target="30DE1C51-889E-2646-8F3B-5B0F9E7C03AD">
-<hideElementsInCurrentOnly>false</hideElementsInCurrentOnly>
-<backgroundColor>-16777216</backgroundColor>
-<lineWidth>1</lineWidth>
-<points>
-<point x="332" y="115"/>
-<point x="332" y="193"/>
 </points>
 </Connector>
 </connectors>

@@ -53,7 +53,7 @@
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
 <dataTypeSize>20</dataTypeSize>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
@@ -61,8 +61,9 @@
 <createdBy>hubertgluchowski</createdBy>
 <createdTime>2024-07-17 07:59:10 UTC</createdTime>
 <ownerDesignName>DataBaseSchema</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="true"/>
+<item key="92C84126-CC7B-3545-9B6F-7A4DC18D49AF" value="false"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
