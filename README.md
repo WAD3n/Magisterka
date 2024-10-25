@@ -1,4 +1,10 @@
 # Magisterka
 # To Do List
-1. DataModeler -> zbudować model logiczny bazy danych
-2. Utworzyć
+#
+# Polączyćć endpoint z frontem
+# Zautomatyzować procesy
+# Model Matematyczny zrobić
+# Poprawić kod ucząco / predykcyjny
+# Dodać nowe modele
+# Implementacja modelu matematycznego ( wybieranie predykcji z portfela )
+#
