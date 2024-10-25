@@ -29,7 +29,7 @@ for element in companySymbol:
 if companyValues:
     # Concatenate all data and reset the index to include the timestamp as a column
     companyValues = pd.concat(companyValues).reset_index()  # reset_index includes 'datetime' as a column
-    companyValues.to_csv('companyValues2.csv', index=False)
+    companyValues.to_csv('workspace/companyValues.csv', index=False)
     print("Successfully created Data Frame with timestamp")
 else:
     print("Creating Data Frame: unsuccessful")
