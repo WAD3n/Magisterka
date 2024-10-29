@@ -1,7 +1,20 @@
+# Instalacja wymaganych pakietów (jeżeli jeszcze ich nie masz zainstalowanych)
+install.packages("dplyr")
+install.packages("neuralnet")
+install.packages("nnet")
+install.packages("uuid")
+install.packages("xgboost")
+install.packages("e1071")
+install.packages("keras")
+
+# Ładowanie bibliotek
 library(dplyr)
 library(neuralnet)
 library(nnet)
 library(uuid)
+library(xgboost)
+library(e1071)
+library(keras)
 
 # Ścieżki do plików
 fileToAnalize <- 'workspace/companyValues.csv'
@@ -34,7 +47,13 @@ accuracy <- function(actual, predicted, threshold = 0.03) {
 }
 
 # Pętla po indeksach
+total_indexes <- length(uniqueIndexes)  # Całkowita liczba symboli do przetworzenia
+index_count <- 0  # Licznik dla śledzenia postępu
+
 for (index in uniqueIndexes) {
+  index_count <- index_count + 1
+  cat("Przetwarzanie symbolu", index_count, "z", total_indexes, ":", index, "\n")
+  
   # Filtrowanie danych dla danego indeksu
   indexedData <- filter(data, symbol == index)
   
@@ -61,7 +80,7 @@ for (index in uniqueIndexes) {
       accuracy_nn_low <- accuracy(nn_last5_actual$low, nn_last5_pred[, 3])
       accuracy_nn_close <- accuracy(nn_last5_actual$close, nn_last5_pred[, 4])
       
-      results <- rbind(results, data.frame(uid = UUIDgenerate(),model = "Neuralnet", symbol = index,
+      results <- rbind(results, data.frame(uid = UUIDgenerate(), model = "Neuralnet", symbol = index,
                                            predicted_open = nn_next_pred[1], predicted_high = nn_next_pred[2],
                                            predicted_low = nn_next_pred[3], predicted_close = nn_next_pred[4],
                                            rmse_open = rmse_nn_open, rmse_high = rmse_nn_high, rmse_low = rmse_nn_low, rmse_close = rmse_nn_close,
@@ -87,11 +106,77 @@ for (index in uniqueIndexes) {
       accuracy_nnet_low <- accuracy(nnet_last5_actual$low, nnet_last5_pred[, 3])
       accuracy_nnet_close <- accuracy(nnet_last5_actual$close, nnet_last5_pred[, 4])
       
-      results <- rbind(results, data.frame(uid = UUIDgenerate(),model = "Nnet", symbol = index,
+      results <- rbind(results, data.frame(uid = UUIDgenerate(), model = "Nnet", symbol = index,
                                            predicted_open = nnet_next_pred[1], predicted_high = nnet_next_pred[2],
                                            predicted_low = nnet_next_pred[3], predicted_close = nnet_next_pred[4],
                                            rmse_open = rmse_nnet_open, rmse_high = rmse_nnet_high, rmse_low = rmse_nnet_low, rmse_close = rmse_nnet_close,
                                            accuracy_open = accuracy_nnet_open, accuracy_high = accuracy_nnet_high, accuracy_low = accuracy_nnet_low, accuracy_close = accuracy_nnet_close))
+    }
+
+    # Trening XGBoost
+    dtrain <- xgb.DMatrix(data = as.matrix(input_data), label = as.matrix(output_data$close))
+    params <- list(objective = "reg:squarederror", eta = 0.1, max_depth = 5)
+    xgb_model <- xgboost(data = dtrain, params = params, nrounds = 100, verbose = 0)
+    xgb_pred <- predict(xgb_model, newdata = as.matrix(tail(input_data, 1)))
+    
+    if (!is.null(xgb_pred)) {
+      results <- rbind(results, data.frame(uid = UUIDgenerate(), model = "XGBoost", symbol = index,
+                                           predicted_open = NA, predicted_high = NA,
+                                           predicted_low = NA, predicted_close = xgb_pred,
+                                           rmse_open = NA, rmse_high = NA, rmse_low = NA, rmse_close = NA,
+                                           accuracy_open = NA, accuracy_high = NA, accuracy_low = NA, accuracy_close = NA,
+                                           stringsAsFactors = FALSE))
+    }
+
+    # Trening SVR
+    x_svr <- as.matrix(input_data)
+    y_svr <- as.matrix(output_data$close)
+    
+    svr_model <- svm(x = x_svr, y = y_svr, scale = TRUE)
+    svr_pred <- predict(svr_model, newdata = as.matrix(tail(input_data, 1)))
+    
+    if (!is.null(svr_pred)) {
+      svr_next_pred <- svr_pred
+      
+      results <- rbind(results, data.frame(uid = UUIDgenerate(), model = "SVR", symbol = index,
+                                           predicted_open = NA, predicted_high = NA,
+                                           predicted_low = NA, predicted_close = svr_next_pred,
+                                           rmse_open = NA, rmse_high = NA, rmse_low = NA, rmse_close = NA,
+                                           accuracy_open = NA, accuracy_high = NA, accuracy_low = NA, accuracy_close = NA,
+                                           stringsAsFactors = FALSE))
+    }
+
+    # Trening LSTM
+    input_data_matrix <- as.matrix(input_data)
+    output_data_matrix <- as.matrix(output_data$close)
+
+    model <- keras_model_sequential() %>%
+      layer_lstm(units = 50, input_shape = list(ncol(input_data_matrix)), return_sequences = FALSE) %>%
+      layer_dense(units = 1)
+
+    model %>% compile(
+      loss = "mean_squared_error", 
+      optimizer = optimizer_adam()
+    )
+
+    model %>% fit(
+      x = input_data_matrix, 
+      y = output_data_matrix, 
+      epochs = 50, 
+      batch_size = 1, 
+      verbose = 0
+    )
+    
+    lstm_pred <- model %>% predict(as.matrix(tail(input_data, 1)))
+    lstm_pred <- model %>% predict(as.matrix(tail(input_data, 1)))
+
+    if (!is.null(lstm_pred)) {
+      results <- rbind(results, data.frame(uid = UUIDgenerate(), model = "LSTM", symbol = index,
+                                           predicted_open = NA, predicted_high = NA,
+                                           predicted_low = NA, predicted_close = lstm_pred[1],
+                                           rmse_open = NA, rmse_high = NA, rmse_low = NA, rmse_close = NA,
+                                           accuracy_open = NA, accuracy_high = NA, accuracy_low = NA, accuracy_close = NA,
+                                           stringsAsFactors = FALSE))
     }
   }
 }
