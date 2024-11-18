@@ -93,7 +93,7 @@ for (index in uniqueIndexes) {
   cat("RMSE dla modelu SVM:", round(rmseSVM, 2), "\n")
   
   # TRENOWANIE MODELU NNET
-  nnetNeurons <- 3
+  nnetNeurons <- 100
   modelNNET <- nnet(open ~ ., data = trainingData, size = nnetNeurons, maxit = 200)
   predictionNNET <- predict(modelNNET, newdata = testingData)
   rmseNNET <- sqrt(mean((predictionNNET - testingData$open)^2))
@@ -104,7 +104,7 @@ for (index in uniqueIndexes) {
   modelNEURALNET <- neuralnet(
     open ~ .,
     data = trainingData,
-    hidden = c(5, 3),
+    hidden = c(5, 1),
     linear.output = TRUE,
     stepmax = 1e6
   )
