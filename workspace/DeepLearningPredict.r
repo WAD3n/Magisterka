@@ -33,6 +33,7 @@ iteration <- 0
 
 # PRZZYGOTWANIE RAMKI DANYCH DO ZAPISU WYNIKOW
 
+set.seed(123)
 
 results <- data.frame(
   symbol = character(),
