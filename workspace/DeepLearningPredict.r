@@ -31,6 +31,103 @@ uniqueIndexes <- unique(indexes$symbol)
 # Licznik iteracji
 iteration <- 0
 
+# PRZZYGOTWANIE RAMKI DANYCH DO ZAPISU WYNIKOW
+
+
+results <- data.frame(
+  symbol = character(),
+  model = character(),
+  rmse = numeric(),
+  mse = numeric(),
+  smape = numeric(),
+  mape = numeric(),
+  rSquered = numeric(),
+  huberLoss = numeric(),
+  actualValue = numeric(),
+  futureValue = numeric(),
+  effectivenss = numeric(),
+  stringsAsFactors = FALSE
+)
+
+# OKREŚLENIE WAG DLA METRYK
+
+weights <- list(
+  rmse = 0.1,    
+  mse = 0.1,     
+  smape = 0.2,   
+  mape = 0.2,   
+  r_squared = 0.2, 
+  huber_loss = 0.2
+)
+
+# RMSE (Root Mean Squared Error)
+rmse <- function(actual, predicted) {
+  sqrt(mean((actual - predicted)^2))
+}
+
+# MSE (Mean Squared Error)
+mse <- function(actual, predicted) {
+  mean((actual - predicted)^2)
+}
+
+# SMAPE (Symmetric Mean Absolute Percentage Error)
+smape <- function(actual, predicted) {
+  mean(2 * abs(actual - predicted) / (abs(actual) + abs(predicted))) * 100
+}
+
+# MAPE (Mean Absolute Percentage Error)
+mape <- function(actual, predicted) {
+  mean(abs((actual - predicted) / actual)) * 100
+}
+
+# R^2 (Coefficient of Determination)
+r_squared <- function(actual, predicted) {
+  ss_total <- sum((actual - mean(actual))^2)
+  ss_residual <- sum((actual - predicted)^2)
+  1 - (ss_residual / ss_total)
+}
+
+# Huber Loss
+huber_loss <- function(actual, predicted, delta = 1) {
+  residual <- actual - predicted
+  huber <- ifelse(
+    abs(residual) <= delta,
+    0.5 * residual^2,
+    delta * abs(residual) - 0.5 * delta^2
+  )
+  mean(huber)
+}
+
+calculate_effectiveness <- function(rmse, mse, smape, mape, r_squared, huber_loss, weights, actual_values) {
+  # Zakres danych rzeczywistych
+  range_values <- max(actual_values) - min(actual_values)
+  mean_value <- mean(actual_values)
+  
+  # Zabezpieczenie przed dzieleniem przez 0
+  range_values <- ifelse(range_values == 0, 1, range_values)
+  mean_value <- ifelse(mean_value == 0, 1, mean_value)
+  
+  # Normalizacja RMSE i MSE przez zakres lub średnią wartości rzeczywistych
+  normalized_rmse <- rmse / range_values
+  normalized_mse <- mse / range_values
+  
+  # Normalizacja pozostałych metryk (np. SMAPE, MAPE) w ich standardowych zakresach
+  effectiveness <- sum(
+    weights$rmse * (1 - normalized_rmse),
+    weights$mse * (1 - normalized_mse),
+    weights$smape * (1 - smape / 100),       # SMAPE w procentach (0-100)
+    weights$mape * (1 - mape / 100),         # MAPE w procentach (0-100)
+    weights$r_squared * r_squared,           # R^2 już jest w zakresie [0,1]
+    weights$huber_loss * (1 - huber_loss / range_values) # Huber Loss normalizowany przez zakres
+  )
+  
+  # Zabezpieczenie przed negatywnymi wartościami
+  effectiveness <- max(effectiveness, 0)
+  
+  return(round(effectiveness * 100, 2)) # Wynik w procentach
+}
+
+
 # Pętla przechodząca po każdym z unikalnych symboli z pliku z symbolami
 for (index in uniqueIndexes) {
   
@@ -53,10 +150,14 @@ for (index in uniqueIndexes) {
   k <- 15 # Liczba drzew
   modelRF <- randomForest(open ~ ., data = trainingData, ntree = k)
   predictionRF <- predict(modelRF, newdata = testingData)
-  rmseRF <- sqrt(mean((predictionRF - testingData$open)^2))
-  cat("Zakończono trenowanie Random Forest dla symbolu:", index, "\n")
-  cat("RMSE dla modelu Random Forest:", round(rmseRF, 2), "\n")
+  rmseRF <- round(rmse(testingData$open, predictionRF),2)
+  mseRF <- round(mse(testingData$open, predictionRF), 2)
+  smapeRF <- round(smape(testingData$open, predictionRF), 2)
+  mapeRF <- round(mape(testingData$open, predictionRF), 2)
+  rSqueredRF <- round(r_squared(testingData$open, predictionRF), 2)
+  huberLossRF <- round(huber_loss(testingData$open, predictionRF), 2)
   
+
   # TRENOWANIE MODELU XGBOOST
   xAxisTraining <- as.matrix(trainingData %>% select(-open))
   yAxisTraining <- trainingData$open
@@ -82,23 +183,39 @@ for (index in uniqueIndexes) {
   )
   predictionXGB <- predict(modelXGB, dTest)
   rmseXGB <- sqrt(mean((predictionXGB - yAxisTesting)^2))
-  cat("Zakończono trenowanie XGBoost dla symbolu:", index, "\n")
-  cat("RMSE dla modelu XGBoost:", round(rmseXGB, 2), "\n")
+  rmseXGB <- round(rmse(testingData$open, predictionXGB), 2)
+  mseXGB <- round(mse(testingData$open, predictionXGB), 2)
+  smapeXGB <- round(smape(testingData$open, predictionXGB), 2)
+  mapeXGB <- round(mape(testingData$open, predictionXGB), 2)
+  rSqueredXGB <- round(r_squared(testingData$open, predictionXGB), 2)
+  huberLossXGB <- round(huber_loss(testingData$open, predictionXGB), 2)
   
   # TRENOWANIE MODELU SVM
   modelSVM <- svm(open ~ ., data = trainingData, kernel = 'radial', cost = 1, gamma = 0.1)
   predictionSVM <- predict(modelSVM, newdata = testingData)
   rmseSVM <- sqrt(mean((predictionSVM - testingData$open)^2))
-  cat("Zakończono trenowanie SVM dla symbolu:", index, "\n")
-  cat("RMSE dla modelu SVM:", round(rmseSVM, 2), "\n")
-  
+  rmseSVM <- round(rmse(testingData$open, predictionSVM), 2)
+  mseSVM <- round(mse(testingData$open, predictionSVM), 2)
+  smapeSVM <- round(smape(testingData$open, predictionSVM), 2)
+  mapeSVM <- round(mape(testingData$open, predictionSVM), 2)
+  rSqueredSVM <- round(r_squared(testingData$open, predictionSVM), 2)
+  huberLossSVM <- round(huber_loss(testingData$open, predictionSVM), 2)
+
   # TRENOWANIE MODELU NNET
+<<<<<<< HEAD
   nnetNeurons <- 100
+=======
+
+  nnetNeurons <- 3
+>>>>>>> 492ca626340b18949e4e893bcc8e3babc9482f05
   modelNNET <- nnet(open ~ ., data = trainingData, size = nnetNeurons, maxit = 200)
   predictionNNET <- predict(modelNNET, newdata = testingData)
-  rmseNNET <- sqrt(mean((predictionNNET - testingData$open)^2))
-  cat("Zakończono trenowanie NNET dla symbolu:", index, "\n")
-  cat("RMSE dla modelu NNET:", round(rmseNNET, 2), "\n")
+  rmseNNET <- round(rmse(testingData$open, predictionNNET), 2)
+  mseNNET <- round(mse(testingData$open, predictionNNET), 2)
+  smapeNNET <- round(smape(testingData$open, predictionNNET), 2)
+  mapeNNET <- round(mape(testingData$open, predictionNNET), 2)
+  rSqueredNNET <- round(r_squared(testingData$open, predictionNNET), 2)
+  huberLossNNET <- round(huber_loss(testingData$open, predictionNNET), 2)
   
   # TRENOWANIE MODELU NEURALNET
   modelNEURALNET <- neuralnet(
@@ -112,7 +229,86 @@ for (index in uniqueIndexes) {
   
   # Predykcja za pomocą neuralnet
   predictionNEURALNET <- compute(modelNEURALNET, testingData %>% select(-open))$net.result
-  rmseNEURALNET <- sqrt(mean((predictionNEURALNET - testingData$open)^2))
-  cat("Zakończono trenowanie NEURALNET dla symbolu:", index, "\n")
-  cat("RMSE dla modelu NEURALNET:", round(rmseNEURALNET, 2), "\n")
+  rmseNEURALNET <- round(rmse(testingData$open, predictionNEURALNET), 2)
+  mseNEURALNET <- round(mse(testingData$open, predictionNEURALNET), 2)
+  smapeNEURALNET <- round(smape(testingData$open, predictionNEURALNET), 2)
+  mapeNEURALNET <- round(mape(testingData$open, predictionNEURALNET), 2)
+  rSqueredNEURALNET <- round(r_squared(testingData$open, predictionNEURALNET), 2)
+  huberLossNEURALNET <- round(huber_loss(testingData$open, predictionNEURALNET), 2)
+
+
+  # OCENA MODELI
+
+effectivenessRF <- calculate_effectiveness(rmseRF, mseRF, smapeRF, mapeRF, rSqueredRF, huberLossRF, weights, testingData$open)
+effectivenessXGB <- calculate_effectiveness(rmseXGB, mseXGB, smapeXGB, mapeXGB, rSqueredXGB, huberLossXGB, weights, testingData$open)
+effectivenessSVM <- calculate_effectiveness(rmseSVM, mseSVM, smapeSVM, mapeSVM, rSqueredSVM, huberLossSVM, weights, testingData$open)
+effectivenessNNET <- calculate_effectiveness(rmseNNET, mseNNET, smapeNNET, mapeNNET, rSqueredNNET, huberLossNNET, weights, testingData$open)
+effectivenessNEURALNET <- calculate_effectiveness(rmseNEURALNET, mseNEURALNET, smapeNEURALNET, mapeNEURALNET, rSqueredNEURALNET, huberLossNEURALNET, weights, testingData$open)
+
+  
+  cat("Procentowa skuteczność modelu Random Forest:", effectivenessRF, "%\n")
+  cat("Procentowa skuteczność modelu XGB:", effectivenessXGB, "%\n")
+  cat("Procentowa skuteczność modelu SVM:", effectivenessSVM, "%\n")
+  cat("Procentowa skuteczność modelu NNET:", effectivenessNNET, "%\n")
+  cat("Procentowa skuteczność modelu NEURALNET:", effectivenessNEURALNET, "%\n")
+
+  # PREDYKOWANNIE WARTOŚCI 
+  
+ results <- rbind(results, 
+                   data.frame(symbol = gsub("NASDAQ:", "", index), model = "Random Forest", rmse = rmseRF,
+                              mse = mseRF,
+                              huberLoss = huberLossRF,
+                              smape = smapeRF,
+                              mape = mapeRF,
+                              rSquered = rSqueredRF,
+                              actualValue = tail(testingData$open, 1), 
+                              futureValue = round(tail(predictionRF, 1),2),
+                              effectiveness = effectivenessRF))
+  results <- rbind(results, 
+                   data.frame(symbol = gsub("NASDAQ:", "", index), model = "XGBoost", rmse = rmseXGB,
+                              mse = mseXGB,
+                              huberLoss = huberLossXGB,
+                              smape = smapeXGB,
+                              mape = mapeXGB,
+                              rSquered = rSqueredXGB,
+                              actualValue = tail(testingData$open, 1), 
+                              futureValue = round(tail(predictionXGB, 1), 2),
+                              effectiveness = effectivenessXGB))
+results <- rbind(results, 
+                   data.frame(symbol = gsub("NASDAQ:", "", index), model = "SVM", rmse = rmseSVM,
+                              mse = mseSVM,
+                              huberLoss = huberLossSVM,
+                              smape = smapeSVM,
+                              mape = mapeSVM,
+                              rSquered = rSqueredSVM,
+                              actualValue = tail(testingData$open, 1), 
+                              futureValue = round(tail(predictionSVM, 1), 2),
+                              effectiveness = effectivenessSVM))
+                
+  results <- rbind(results, 
+                 data.frame(symbol = gsub("NASDAQ:", "", index), model = "NNET", rmse = rmseNNET,
+                            mse = mseNNET,
+                            huberLoss = huberLossNNET,
+                            smape = smapeNNET,
+                            mape = mapeNNET,
+                            rSquered = rSqueredNNET,
+                            actualValue = tail(testingData$open, 1), 
+                            futureValue = round(tail(predictionNNET, 1), 2),
+                            effectiveness = effectivenessNNET))
+
+
+  results <- rbind(results, 
+                 data.frame(symbol = gsub("NASDAQ:", "", index), model = "NeuralNet", rmse = rmseNEURALNET,
+                            mse = mseNEURALNET,
+                            huberLoss = huberLossNEURALNET,
+                            smape = smapeNEURALNET,
+                            mape = mapeNEURALNET,
+                            rSquered = rSqueredNEURALNET,
+                            actualValue = tail(testingData$open, 1), 
+                            futureValue = round(tail(predictionNEURALNET, 1), 2),
+                            effectiveness = effectivenessNEURALNET))
 }
+
+# Zapis wyników w nowum pliku
+write.csv(results, "model_results.csv", row.names = FALSE)
+cat("Wyniki zostały zapisane do pliku model_results.csv\n")
