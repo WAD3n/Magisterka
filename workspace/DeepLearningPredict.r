@@ -206,9 +206,8 @@ for (index in uniqueIndexes) {
   nnetNeurons <- 100
 =======
 
-  nnetNeurons <- 3
->>>>>>> 492ca626340b18949e4e893bcc8e3babc9482f05
-  modelNNET <- nnet(open ~ ., data = trainingData, size = nnetNeurons, maxit = 200)
+  nnetNeurons <- 10
+  modelNNET <- nnet(open ~ ., data = trainingData, size = nnetNeurons, maxit = 200, decay = 0.01, lineout = true)
   predictionNNET <- predict(modelNNET, newdata = testingData)
   rmseNNET <- round(rmse(testingData$open, predictionNNET), 2)
   mseNNET <- round(mse(testingData$open, predictionNNET), 2)
@@ -221,7 +220,7 @@ for (index in uniqueIndexes) {
   modelNEURALNET <- neuralnet(
     open ~ .,
     data = trainingData,
-    hidden = c(5, 1),
+    hidden = c(5, 3),
     linear.output = TRUE,
     stepmax = 1e6
   )
