@@ -202,10 +202,6 @@ for (index in uniqueIndexes) {
   huberLossSVM <- round(huber_loss(testingData$open, predictionSVM), 2)
 
   # TRENOWANIE MODELU NNET
-<<<<<<< HEAD
-  nnetNeurons <- 100
-=======
-
   nnetNeurons <- 10
   modelNNET <- nnet(open ~ ., data = trainingData, size = nnetNeurons, maxit = 200, decay = 0.01, lineout = true)
   predictionNNET <- predict(modelNNET, newdata = testingData)
