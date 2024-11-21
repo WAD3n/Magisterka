@@ -1,10 +1,10 @@
 # Instalacja wymaganych pakietów
-install.packages("dplyr")
-install.packages("neuralnet")
-install.packages("nnet")
-install.packages("randomForest")
-install.packages("xgboost")
-install.packages("e1071")
+#install.packages("dplyr")
+#install.packages("neuralnet")
+#install.packages("nnet")
+#install.packages("randomForest")
+#install.packages("xgboost")
+#install.packages("e1071")
 
 # Ładowanie bibliotek
 library(dplyr)
@@ -53,11 +53,11 @@ results <- data.frame(
 # OKREŚLENIE WAG DLA METRYK
 
 weights <- list(
-  rmse = 0.1,    
-  mse = 0.1,     
-  smape = 0.2,   
-  mape = 0.2,   
-  r_squared = 0.2, 
+  rmse = 0.1,
+  mse = 0.1,
+  smape = 0.2,
+  mape = 0.2,
+  r_squared = 0.2,
   huber_loss = 0.2
 )
 
@@ -112,7 +112,7 @@ calculate_effectiveness <- function(rmse, mse, smape, mape, r_squared, huber_los
   normalized_rmse <- rmse / range_values
   normalized_mse <- mse / range_values
   
-  # Normalizacja pozostałych metryk (np. SMAPE, MAPE) w ich standardowych zakresach
+  # Normalizacja pozostałych metryk w ich standardowych zakresach
   effectiveness <- sum(
     weights$rmse * (1 - normalized_rmse),
     weights$mse * (1 - normalized_mse),
