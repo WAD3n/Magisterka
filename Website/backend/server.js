@@ -28,7 +28,15 @@ app.get('/predictions', async (req, res) => {
     res.status(500).send(err.message);
   }
 });
-
+app.get('/User', async (req, res) => {
+  try {
+    let pool = await sql.connect(config);
+    let result = await pool.request().query('SELECT * FROM dbo.User');
+    res.json(result.recordset);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
 // Uruchomienie serwera
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

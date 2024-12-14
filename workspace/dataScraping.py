@@ -2,7 +2,7 @@ import pandas as pd
 from tvDatafeed import TvDatafeed as tv, Interval
 
 # Correct file path with raw string or double backslashes
-file = r'C:\Users\Hubert\Magisterka\workspace\companies_symbol.csv'
+file = r'workspace/companies_symbol.csv'
 
 # Load CSV file
 df = pd.read_csv(file)

@@ -1,10 +1,10 @@
 # Instalacja wymaganych pakietów
-#install.packages("dplyr")
-#install.packages("neuralnet")
-#install.packages("nnet")
-#install.packages("randomForest")
-#install.packages("xgboost")
-#install.packages("e1071")
+# install.packages("dplyr")
+# install.packages("neuralnet")
+# install.packages("nnet")
+# install.packages("randomForest")
+# install.packages("xgboost")
+# install.packages("e1071")
 
 # Ładowanie bibliotek
 library(dplyr)
@@ -128,6 +128,73 @@ calculate_effectiveness <- function(rmse, mse, smape, mape, r_squared, huber_los
   return(round(effectiveness * 100, 2)) # Wynik w procentach
 }
 
+weighted_averages <- function(results, x, y) {
+  # Sprawdzenie, czy ramka danych nie jest pusta
+  if (nrow(results) == 0) {
+    stop("The 'results' data frame is empty. Please provide valid data.")
+  }
+  
+  # Lista metryk do uwzględnienia
+  metrics <- c("rmse", "mse", "huberLoss", "smape", "mape", "rSquered", "actualValue", "futureValue")
+  
+  # Sprawdzenie, czy wszystkie wymagane metryki są obecne w danych
+  missing_metrics <- setdiff(metrics, colnames(results))
+  if (length(missing_metrics) > 0) {
+    stop(paste("The following metrics are missing from the 'results' data frame:", paste(missing_metrics, collapse = ", ")))
+  }
+  
+  # Wyliczanie ważonych średnich dla każdej metryki
+  weighted_means <- sapply(metrics, function(metric) {
+    # Wartości kolumny
+    values <- results[[metric]]
+    # Wagi (efektywność)
+    weights <- results$effectiveness
+    # Obliczanie ważonej średniej z obsługą braków danych (NA)
+    if (all(is.na(values)) || sum(weights, na.rm = TRUE) == 0) {
+      return(NA)  # Zwrot NA, jeśli brak danych lub suma wag jest zerowa
+    }
+    sum(values * weights, na.rm = TRUE) / sum(weights, na.rm = TRUE)
+  })
+  
+  # Obliczenie ważonej efektywności (średnia ważona efektywności)
+  weighted_effectiveness <- sum(results$effectiveness * results$effectiveness, na.rm = TRUE) / sum(results$effectiveness, na.rm = TRUE)
+  weighted_effectiveness <- round(weighted_effectiveness,digits=2)
+  cat("Procentowa wazona skutecznosc modeli:", weighted_effectiveness, "%\n")
+  
+  # Dodanie kolumny symbolu (indeksu)
+  index_name <- unique(results$symbol)
+  if (length(index_name) > 1) {
+    warning("Multiple symbols found in 'results'. Using the first symbol.")
+    index_name <- index_name[1]
+  }
+  
+  # Dodanie indeksu do wyników
+  weighted_means <- c(index = index_name, weighted_means, effectiveness = weighted_effectiveness)
+  
+  # Konwersja wyniku na ramkę danych
+  weighted_means <- as.data.frame(t(weighted_means), stringsAsFactors = FALSE)
+  
+  # Czyszczenie ramki `results`
+  results <<- data.frame()
+  
+  # Sprawdzenie, czy efektywność mieści się w przedziale (x, y)
+if ((weighted_effectiveness >= x && weighted_effectiveness <= y)) {
+    # Dopisanie do pliku CSV, jeśli warunek jest spełniony
+    write.table(weighted_means, 
+                file = "model_results.csv", 
+                sep = ",", 
+                row.names = FALSE, 
+                col.names = !file.exists("model_results.csv"), # Dodaj nagłówki tylko raz
+                append = TRUE)  # Dopisuj wyniki do pliku
+    message("Results appended to CSV.")
+} else {
+    message("Effectiveness out of range. Results not saved.")
+}
+  
+  return(weighted_means)
+}
+
+
 
 # Pętla przechodząca po każdym z unikalnych symboli z pliku z symbolami
 for (index in uniqueIndexes) {
@@ -204,7 +271,7 @@ for (index in uniqueIndexes) {
 
   # TRENOWANIE MODELU NNET
   nnetNeurons <- 10
-  modelNNET <- nnet(open ~ ., data = trainingData, size = nnetNeurons, maxit = 200, decay = 0.01, lineout = true)
+  modelNNET <- nnet(open ~ ., data = trainingData, size = nnetNeurons, maxit = 200, decay = 0.01, linout = TRUE)
   predictionNNET <- predict(modelNNET, newdata = testingData)
   rmseNNET <- round(rmse(testingData$open, predictionNNET), 2)
   mseNNET <- round(mse(testingData$open, predictionNNET), 2)
@@ -221,7 +288,7 @@ for (index in uniqueIndexes) {
     linear.output = TRUE,
     stepmax = 1e6
   )
-  plot(modelNEURALNET) # Wizualizacja
+
   
   # Predykcja za pomocą neuralnet
   predictionNEURALNET <- compute(modelNEURALNET, testingData %>% select(-open))$net.result
@@ -303,8 +370,6 @@ results <- rbind(results,
                             actualValue = tail(testingData$open, 1), 
                             futureValue = round(tail(predictionNEURALNET, 1), 2),
                             effectiveness = effectivenessNEURALNET))
-}
 
-# Zapis wyników w nowum pliku
-write.csv(results, "model_results.csv", row.names = FALSE)
-cat("Wyniki zostały zapisane do pliku model_results.csv\n")
+weighted_results <- weighted_averages(results, 60, 90)
+}
