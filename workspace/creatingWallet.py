@@ -10,8 +10,7 @@ company_values = pd.read_csv("workspace/companyValues.csv")
 # Filtruj spółki tylko dla tych, które występują w model_results
 symbols = model_results['symbol'].unique()
 
-# Dodaj przzedrostek NASDAQ
-symbols = ["NASDAQ:" + _ for _ in symbols]
+
 print(symbols)
 filtered_data = company_values[company_values['symbol'].isin(symbols)]
 

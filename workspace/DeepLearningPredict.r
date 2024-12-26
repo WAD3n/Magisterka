@@ -318,7 +318,7 @@ effectivenessNEURALNET <- calculate_effectiveness(rmseNEURALNET, mseNEURALNET, s
   # PREDYKOWANNIE WARTOŚCI 
   
  results <- rbind(results, 
-                   data.frame(symbol = gsub("NASDAQ:", "", index), model = "Random Forest", rmse = rmseRF,
+                   data.frame(symbol = index, model = "Random Forest", rmse = rmseRF,
                               mse = mseRF,
                               huberLoss = huberLossRF,
                               smape = smapeRF,
@@ -328,7 +328,7 @@ effectivenessNEURALNET <- calculate_effectiveness(rmseNEURALNET, mseNEURALNET, s
                               futureValue = round(tail(predictionRF, 1),2),
                               effectiveness = effectivenessRF))
   results <- rbind(results, 
-                   data.frame(symbol = gsub("NASDAQ:", "", index), model = "XGBoost", rmse = rmseXGB,
+                   data.frame(symbol = index, model = "XGBoost", rmse = rmseXGB,
                               mse = mseXGB,
                               huberLoss = huberLossXGB,
                               smape = smapeXGB,
@@ -338,7 +338,7 @@ effectivenessNEURALNET <- calculate_effectiveness(rmseNEURALNET, mseNEURALNET, s
                               futureValue = round(tail(predictionXGB, 1), 2),
                               effectiveness = effectivenessXGB))
 results <- rbind(results, 
-                   data.frame(symbol = gsub("NASDAQ:", "", index), model = "SVM", rmse = rmseSVM,
+                   data.frame(symbol = index, model = "SVM", rmse = rmseSVM,
                               mse = mseSVM,
                               huberLoss = huberLossSVM,
                               smape = smapeSVM,
@@ -349,7 +349,7 @@ results <- rbind(results,
                               effectiveness = effectivenessSVM))
                 
   results <- rbind(results, 
-                 data.frame(symbol = gsub("NASDAQ:", "", index), model = "NNET", rmse = rmseNNET,
+                 data.frame(symbol = index, model = "NNET", rmse = rmseNNET,
                             mse = mseNNET,
                             huberLoss = huberLossNNET,
                             smape = smapeNNET,
@@ -361,7 +361,7 @@ results <- rbind(results,
 
 
   results <- rbind(results, 
-                 data.frame(symbol = gsub("NASDAQ:", "", index), model = "NeuralNet", rmse = rmseNEURALNET,
+                 data.frame(symbol = index, model = "NeuralNet", rmse = rmseNEURALNET,
                             mse = mseNEURALNET,
                             huberLoss = huberLossNEURALNET,
                             smape = smapeNEURALNET,
